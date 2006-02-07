@@ -10,3 +10,4 @@ BNBTMySQL.ilk
 BNBTMySQL.exe
 *.patch
 *.cfg
+.svn
