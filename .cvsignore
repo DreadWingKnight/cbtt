@@ -11,3 +11,6 @@ BNBTMySQL.exe
 *.patch
 *.cfg
 .svn
+*.APS
+*.ncb
+*.suo
