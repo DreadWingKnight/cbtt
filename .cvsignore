@@ -1,0 +1,12 @@
+BNBT.suo
+BNBT.ncb
+BNBT.ilk
+BNBT.exe
+Debug
+Release
+Debug\ MySQL
+Release\ MySQL
+BNBTMySQL.ilk
+BNBTMySQL.exe
+*.patch
+*.cfg
