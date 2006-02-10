@@ -1843,7 +1843,7 @@ void CTracker :: Announce( struct announce_t ann )
 	if( ann.bAbusive == true )
 		ann.strEvent = "stopped";
 
-    if( m_pAbuse )
+	if( m_bEnableAbuseBlock == true && m_pAbuse )
 	{
 		if( m_pAbuse->getItem( ann.strIP ) )
 		{
