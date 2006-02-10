@@ -521,8 +521,6 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 						{
 							if( (*i).second->isDicti( ) )
 							{
-								CAtomDicti *pAdd = new CAtomDicti( );
-
 								CAtom *pIP = ( (CAtomDicti *)(*i).second )->getItem( "ip" );
 								CAtom *pPort = ( (CAtomDicti *)(*i).second )->getItem( "port" );
 								// check for oneself and remove from the list
@@ -541,6 +539,9 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 										continue;
 									}
 								}
+
+								// Moved here to clean up from the memory leak
+								CAtomDicti *pAdd = new CAtomDicti( );
 
 								pAdd->setItem( "peer id", new CAtomString( (*i).first ) );
 
