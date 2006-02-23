@@ -194,7 +194,16 @@ void CClient :: StartReceiving( )
 			string :: size_type iSplit = strTemp.find( "=" );
 			string :: size_type iEnd = strTemp.find( "&" );
 
-			if( iSplit == string :: npos )
+			if ((iSplit == string::npos) && (strTemp.length() == 40)) {
+				if( gbDebug )
+					UTIL_LogPrint( "Azureus-style Torrent URL passed\n" );
+				rqst.mapParams.insert( pair<string, string>( string("info_hash"), strTemp) );
+				strTemp = strTemp.substr( iEnd + 1, strTemp.size( ) - iEnd - 1 );
+				if( iEnd == string :: npos )
+					break;
+				continue;
+            } 
+			if( iSplit == string :: npos && strTemp.length() != 40 )
 			{
 				UTIL_LogPrint( "client warning - malformed HTTP request (found param key without value)\n" );
 
