@@ -124,7 +124,25 @@ void CTracker :: serverResponseBencodeInfo( struct request_t *pRequest, struct r
 	CAtomDicti *pFeatures = new CAtomDicti( );
 	pFeatures->setItem("linking", new CAtomString( "ka" ) );
 	pFeatures->setItem("banning", new CAtomString( "cih" ) );
+	CAtomList *pStatistics = new CAtomList();
+	if( m_strDumpXMLFile != string() )
+		pStatistics->addItem( new CAtomString( "XML Dump" ));
     pData->setItem("features", pFeatures);
+
+#ifdef BNBT_MYSQL
+	pStatistics->addItem( new CAtomString( "MySQL" ));
+	if ( m_bMySQLOverrideDState == true )
+		pData->setItem("database", new CAtomString( "MySQL Overriding DState" ) );
+	else
+	{
+		pData->setItem("database", new CAtomString( "MySQL Statistics Dump with Flatfile dstate" ) );
+		pStatistics->addItem( new CAtomString( "Dstate Dfile" ));
+	}
+#else
+	pData->setItem("database", new CAtomString( "Flatfile Dstate" ) );
+	pStatistics->addItem( new CAtomString( "Dstate Dfile" ));
+#endif
+	pFeatures->setItem("statistics", pStatistics);
 
 	if( gpLinkServer )
 	{
