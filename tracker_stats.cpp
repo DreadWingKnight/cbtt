@@ -856,6 +856,11 @@ void CTracker :: serverResponseStats( struct request_t *pRequest, struct respons
 								{
 									pResponse->strContent += "<br>";
 
+									if( iPercent < 0 )
+										iPercent = 0;
+									if( iPercent > 100 )
+										iPercent = 100;
+
 									if( iPercent > 0 )
 										pResponse->strContent += "<img src=\"" + m_strImageBarFill + "\" width=" + CAtomInt( iPercent ).toString( ) + " height=8>";
 
