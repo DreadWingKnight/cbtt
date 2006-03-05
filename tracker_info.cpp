@@ -142,6 +142,9 @@ void CTracker :: serverResponseBencodeInfo( struct request_t *pRequest, struct r
 	pData->setItem("database", new CAtomString( "Flatfile Dstate" ) );
 	pStatistics->addItem( new CAtomString( "Dstate Dfile" ));
 #endif
+	if( m_iSaveScrapeInterval > 0 )
+		pStatistics->addItem( new CAtomString( "Timed scrape save" ) );
+
 	pFeatures->setItem("statistics", pStatistics);
 
 	if( gpLinkServer )

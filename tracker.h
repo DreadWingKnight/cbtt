@@ -98,6 +98,7 @@ public:
 	virtual ~CTracker( );
 
 	void saveDFile( );
+	void saveScrapeFile( );
 	void saveComments( );
 	void saveTags( );
 	void saveUsers( );
@@ -159,6 +160,8 @@ private:
 	string m_strArchiveDir;
 	string m_strFileDir;
 	string m_strDFile;
+	// Scrape Stats
+	string m_strSCFile;
 	string m_strCommentsFile;
 	string m_strTagFile;
 	string m_strUsersFile;
@@ -194,6 +197,7 @@ private:
 	bool m_bDumpXMLPeers;
 	int m_iParseAllowedInterval;
 	int m_iSaveDFileInterval;
+	int m_iSaveScrapeInterval;
 	int m_iDownloaderTimeOutInterval;
 	int m_iRefreshStaticInterval;
 	int m_iDumpXMLInterval;
@@ -201,6 +205,7 @@ private:
 	int m_iMySQLRefreshStatsInterval;
 	unsigned long m_iParseAllowedNext;
 	unsigned long m_iSaveDFileNext;
+	unsigned long m_iSaveScrapeNext;
 	unsigned long m_iPrevTime;
 	unsigned long m_iDownloaderTimeOutNext;
 	unsigned long m_iRefreshStaticNext;

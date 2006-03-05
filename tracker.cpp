@@ -188,6 +188,11 @@ CTracker :: CTracker( )
 	m_bRequireCompact = CFG_GetInt( "cbtt_require_compact", 0 ) == 0 ? false : true;
 	m_bRequireNoPeerID = CFG_GetInt( "cbtt_require_no_peer_id", 0 ) == 0 ? false : true;
 
+	// Scrape Interval
+	m_strSCFile = CFG_GetString( "cbtt_scrape_file", string( ) );
+	m_iSaveScrapeInterval = CFG_GetInt( "cbtt_scrape_save_interval", 0 );
+	m_iSaveScrapeNext = GetTime( ) + m_iSaveScrapeInterval;
+
 	//RSS Support - Code by labarks
 	m_strDumpRSSFile = CFG_GetString( "bnbt_rss_file", string( ) );
 	m_strDumpRSSFileDir = CFG_GetString( "bnbt_rss_online_dir", string( ) );
@@ -508,6 +513,143 @@ void CTracker :: saveDFile( )
 
 	fwrite( (void *)strData.c_str( ), sizeof( char ), strData.size( ), pFile );
 	fclose( pFile );
+}
+
+void CTracker :: saveScrapeFile( )
+{
+	CAtomDicti *pScrape = new CAtomDicti( );
+	CAtomDicti *pFiles = new CAtomDicti( );
+
+	pScrape->setItem( "files", pFiles );
+#ifdef BNBT_MYSQL
+   if( m_bMySQLOverrideDState && m_iMySQLRefreshStatsInterval > 0 )
+   {
+      // Modified by =Xotic=
+      string strQuery;
+      strQuery = "SELECT bseeders,bleechers,bcompleted,bhash FROM torrents";
+
+      CMySQLQuery *pQuery = new CMySQLQuery( strQuery );
+
+      vector<string> vecQuery;
+         // full
+      while( ( vecQuery = pQuery->nextRow( ) ).size( ) == 4 )
+      {
+            CAtomDicti *pHuh = new CAtomDicti( );
+
+            pHuh->setItem( "complete", new CAtomInt( atoi( vecQuery[0].c_str( ) ) ) );
+            pHuh->setItem( "incomplete", new CAtomInt( atoi( vecQuery[1].c_str( ) ) ) );
+            pHuh->setItem( "downloaded", new CAtomInt( atoi( vecQuery[2].c_str( ) ) ) );
+
+            if( m_pAllowed )
+            {
+               CAtom *pList = m_pAllowed->getItem( vecQuery[3] );
+
+               if( pList && dynamic_cast<CAtomList *>( pList ) )
+               {
+                  vector<CAtom *> vecTorrent = dynamic_cast<CAtomList *>( pList )->getValue( );
+
+                  if( vecTorrent.size( ) == 6 )
+                  {
+                     CAtom *pName = vecTorrent[1];
+
+                     if( pName )
+                        pHuh->setItem( "name", new CAtomString( pName->toString( ) ) );
+                  }
+               }
+            }
+
+            pFiles->setItem( vecQuery[3], pHuh );
+		delete pQuery;
+		string p_sOutput;
+		FILE *pFile = NULL;
+		string strData = Encode( pScrape );
+		if( ( pFile = fopen( m_strSCFile.c_str( ), "wb" ) ) == NULL )
+		{
+			UTIL_LogPrint( "tracker warning - unable to open %s for writing\n", m_strSCFile.c_str( ) );
+			return;
+		}
+		fwrite( (void *)strData.c_str( ), sizeof( char ), strData.size( ), pFile );
+		fclose( pFile );
+	}
+	delete pScrape;
+	return;
+   }
+#endif
+   	if( m_pDFile )
+	{
+		map<string, CAtom *> *pmapDicti = m_pDFile->getValuePtr( );
+
+		for( map<string, CAtom *> :: iterator i = pmapDicti->begin( ); i != pmapDicti->end( ); i++ )
+		{
+			if( (*i).second->isDicti( ) )
+			{
+				CAtomDicti *pHuh = new CAtomDicti( );
+
+				map<string, CAtom *> *pmapPeersDicti = ( (CAtomDicti *)(*i).second )->getValuePtr( );
+
+				unsigned long iSeeders = 0;
+				unsigned long iLeechers = 0;
+
+				for( map<string, CAtom *> :: iterator j = pmapPeersDicti->begin( ); j != pmapPeersDicti->end( ); j++ )
+				{
+					if( (*j).second->isDicti( ) )
+					{
+						CAtom *pLeft = ( (CAtomDicti *)(*j).second )->getItem( "left" );
+
+						if( pLeft && pLeft->isLong( ) )
+						{
+							if( ( (CAtomLong *)pLeft )->getValue( ) == 0 )
+								iSeeders++;
+							else
+								iLeechers++;
+						}
+					}
+				}
+
+				pHuh->setItem( "complete", new CAtomInt( iSeeders ) );
+				pHuh->setItem( "incomplete", new CAtomInt( iLeechers ) );
+
+				if( m_pAllowed )
+				{
+					CAtom *pList = m_pAllowed->getItem( (*i).first );
+
+					if( pList && pList->isList( ) )
+					{
+						vector<CAtom *> vecTorrent = ( (CAtomList *)pList )->getValue( );
+
+						if( vecTorrent.size( ) == 6 )
+						{
+							CAtom *pName = vecTorrent[1];
+
+							if( pName )
+								pHuh->setItem( "name", new CAtomString( pName->toString( ) ) );
+						}
+					}
+				}
+
+				if( m_pCompleted )
+				{
+					CAtom *pCompleted = m_pCompleted->getItem( (*i).first );
+
+					if( pCompleted && pCompleted->isLong( ) )
+						pHuh->setItem( "downloaded", new CAtomLong( ( (CAtomLong *)pCompleted )->getValue( ) ) );
+				}
+
+				pFiles->setItem( (*i).first, pHuh );
+				}
+			}
+		FILE *pFile = NULL;
+		string strData = Encode( pScrape );
+		if( ( pFile = fopen( m_strSCFile.c_str( ), "wb" ) ) == NULL )
+		{
+			UTIL_LogPrint( "tracker warning - unable to open %s for writing\n", m_strSCFile.c_str( ) );
+			return;
+		}
+		fwrite( (void *)strData.c_str( ), sizeof( char ), strData.size( ), pFile );
+		fclose( pFile );
+		delete pScrape;
+		return;
+	}
 }
 
 void CTracker :: saveComments( )
@@ -1840,7 +1982,7 @@ void CTracker :: Announce( struct announce_t ann )
 	}
 #endif
 
-	if( ann.bAbusive == true )
+	if( m_bEnableAbuseBlock == true && ann.bAbusive == true )
 		ann.strEvent = "stopped";
 
 	if( m_bEnableAbuseBlock == true && m_pAbuse )
@@ -2330,6 +2472,16 @@ void CTracker :: Update( )
 		m_iMySQLRefreshStatsNext = GetTime( ) + m_iMySQLRefreshStatsInterval;
 	}
 #endif
+
+	if( m_iSaveScrapeInterval > 0 && GetTime( ) > m_iSaveScrapeNext )
+	{
+		if( gbDebug )
+			UTIL_LogPrint( "tracker - saving scrape (%s)\n", m_strSCFile.c_str() );
+
+		saveScrapeFile( );
+
+		m_iSaveScrapeNext = GetTime( ) + m_iSaveScrapeInterval;
+	}
 
 	if( GetTime( ) > m_iSaveDFileNext )
 	{

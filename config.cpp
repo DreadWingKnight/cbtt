@@ -552,6 +552,12 @@ void CFG_SetDefaults( )
 	if( CFG_GetString( "cbtt_stats_link_image", string( ) ).empty( ) )
 		CFG_SetString( "cbtt_stats_link_image", "" );
 
+	if( CFG_GetString( "cbtt_scrape_file", string( ) ).empty() )
+		CFG_SetString( "cbtt_scrape_file", "" );
+
+	if( CFG_GetInt( "cbtt_scrape_save_interval", -1 ) < 0 )
+		CFG_SetInt( "cbtt_scrape_save_interval", 0 );
+
 
 	//RSS Feed Support - code by labarks
 	if( CFG_GetString( "bnbt_rss_file", string( ) ).empty( ) )
