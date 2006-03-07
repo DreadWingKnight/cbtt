@@ -1438,49 +1438,165 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 
 			// page numbers
 
+			// Number of items to show left/right of the current page:
+			unsigned int pageRange = 3;
+			
 			if( m_override_iPerPage > 0 )
 			{
-				pResponse->strContent += "<p class=\"pagenum_bottom\">";
+				pResponse->strContent += "<table class=\"pagenumbers\"><tr><td width=\"39%\"><p align=\"right\" class=\"pagenum_bottom\">";
 
-				for( unsigned long i = 0; i < (unsigned int)iFound; i += m_override_iPerPage )
+				// iStart holds the start number of items.  Ie, 45 means hold from 45 to 45+m_override_iPerPage
+				// m_override_iPerPage holds the number of items on a page.
+
+
+/*				// Lets just temporarily store this stuff, so we're not constantly regenerating it...
+				string tmpHTML;
+
+				if( !strSort.empty( ) )
+					tmpHTML += "&sort=" + strSort;
+
+				if( !strSearch.empty( ) )
+					tmpHTML += "&search=" + strSearchResp;
+
+				if( !strFilter.empty( ) )
+					tmpHTML += "&filter=" + UTIL_StringToEscaped( strFilter );
+*/				
+				
+				// Add a "go to start" link if the current page is more than pageRange pages away...
+				if( iStart > m_override_iPerPage * m_iPageRange) {
+					pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=0";
+					
+					if( !strSort.empty( ) )
+						pResponse->strContent += "&sort=" + strSort;
+
+					if( !strSearch.empty( ) )
+						pResponse->strContent += "&search=" + strSearchResp;
+
+					if( !strFilter.empty( ) )
+						pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
+
+					if( !strPerPage.empty( ) )
+						pResponse->strContent += "&per_page=" + strPerPage;
+
+					pResponse->strContent += "\" title=\"Go to first page\">&laquo;</a></span>&nbsp;";
+				}
+				
+				// Adds a previous link iff we are not at the beginning
+				if( iStart != 0 )
 				{
-					pResponse->strContent += " ";
+					pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=" + CAtomInt( (iStart / m_override_iPerPage) - 1 ).toString( );
+					
+					if( !strSort.empty( ) )
+						pResponse->strContent += "&sort=" + strSort;
 
-					// don't link to current page
+					if( !strSearch.empty( ) )
+						pResponse->strContent += "&search=" + strSearchResp;
 
-					if( i != iStart )
-					{
-						pResponse->strContent += "<a href=\"/index.html?page=" + CAtomInt( i / m_override_iPerPage ).toString( );
+					if( !strFilter.empty( ) )
+						pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
 
-						if( !strSort.empty( ) )
-							pResponse->strContent += "&sort=" + strSort;
+					if( !strPerPage.empty( ) )
+						pResponse->strContent += "&per_page=" + strPerPage;
 
-						if( !strSearch.empty( ) )
-							pResponse->strContent += "&search=" + strSearchResp;
+					pResponse->strContent += "\" title=\"Previous page\">&lt;</a></span>&nbsp;";
+				}
+				
+				for( unsigned int i = ( (int) iStart - (int) (m_iPageRange*m_override_iPerPage) < 0 ? 0 : iStart - (m_iPageRange*m_override_iPerPage)); i < iStart; i += m_override_iPerPage )
+				{
+					pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=" + CAtomInt( i / m_override_iPerPage ).toString( );
 
-						if( !strFilter.empty( ) )
-							pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
+					if( !strSort.empty( ) )
+						pResponse->strContent += "&sort=" + strSort;
 
-						if( !strPerPage.empty( ) )
-							pResponse->strContent += "&per_page=" + strPerPage;
+					if( !strSearch.empty( ) )
+						pResponse->strContent += "&search=" + strSearchResp;
 
-						pResponse->strContent += "\">";
-					}
+					if( !strFilter.empty( ) )
+						pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
 
+					if( !strPerPage.empty( ) )
+						pResponse->strContent += "&per_page=" + strPerPage;
+
+					pResponse->strContent += "\">";
+					
 					pResponse->strContent += CAtomInt( ( i / m_override_iPerPage ) + 1 ).toString( );
 
-					if( i != iStart )
-						pResponse->strContent += "</a>";
+					pResponse->strContent += "</a></span>&nbsp;";
+				}
+				
+				// Print out the current page, without linkage of any kind...
+				pResponse->strContent += "<span class=\"pagecurrent\">";
+				pResponse->strContent += CAtomInt( ( iStart / m_override_iPerPage ) + 1 ).toString( );
+				pResponse->strContent += "</span>&nbsp;";
 
-					pResponse->strContent += " ";
+				if( iStart != iFound )
+				{
+					for( unsigned int i = iStart + m_override_iPerPage ; i < (iStart + ( m_override_iPerPage * (m_iPageRange+1) ) > iFound ? iFound : iStart + ( m_override_iPerPage * (m_iPageRange+1) ) ); i += m_override_iPerPage )
+					{
+						pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=" + CAtomInt( i / m_override_iPerPage ).toString( );
+	
+						if( !strSort.empty( ) )
+							pResponse->strContent += "&sort=" + strSort;
+	
+						if( !strSearch.empty( ) )
+							pResponse->strContent += "&search=" + strSearchResp;
+	
+						if( !strFilter.empty( ) )
+							pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
+	
+						if( !strPerPage.empty( ) )
+							pResponse->strContent += "&per_page=" + strPerPage;
+	
+						pResponse->strContent += "\">";
+						
+						pResponse->strContent += CAtomInt( ( i / m_override_iPerPage ) + 1 ).toString( );
+	
+						pResponse->strContent += "</a></span>&nbsp;";
+					}
+				}
+				
+				// Adds a next link iff we are not at the beginning
+				if( iStart + m_override_iPerPage < iFound )
+				{
+					pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=" + CAtomInt( (iStart / m_override_iPerPage) + 1 ).toString( );
+					
+					if( !strSort.empty( ) )
+						pResponse->strContent += "&sort=" + strSort;
 
-					// don't display a bar after the last page
+					if( !strSearch.empty( ) )
+						pResponse->strContent += "&search=" + strSearchResp;
 
-					if( i + (unsigned int)m_override_iPerPage < (unsigned int)iFound )
-						pResponse->strContent += "|";
+					if( !strFilter.empty( ) )
+						pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
+
+					if( !strPerPage.empty( ) )
+						pResponse->strContent += "&per_page=" + strPerPage;
+
+
+					pResponse->strContent += "\" title=\"Next page\">&gt;</a></span>&nbsp;";
+				}
+				
+				// Add a "go to end" link if the current page is more than pageRange pages away...
+				if( iStart + ( m_override_iPerPage * (m_iPageRange+1) ) < iFound ) {
+					pResponse->strContent += "<span class=\"pages\"><a href=\"/index.html?page=" + CAtomInt( (iFound / m_override_iPerPage) ).toString( );
+					
+					if( !strSort.empty( ) )
+						pResponse->strContent += "&sort=" + strSort;
+
+					if( !strSearch.empty( ) )
+						pResponse->strContent += "&search=" + strSearchResp;
+
+					if( !strFilter.empty( ) )
+						pResponse->strContent += "&filter=" + UTIL_StringToEscaped( strFilter );
+
+					if( !strPerPage.empty( ) )
+						pResponse->strContent += "&per_page=" + strPerPage;
+
+					pResponse->strContent += "\" title=\"Go to last page\">&raquo;</a></span>";
 				}
 
-				pResponse->strContent += "</p>\n";
+				pResponse->strContent += "</p></td>\n";
+				pResponse->strContent += "</tr></table>";
 			}
 		}
 

@@ -558,6 +558,9 @@ void CFG_SetDefaults( )
 	if( CFG_GetInt( "cbtt_scrape_save_interval", -1 ) < 0 )
 		CFG_SetInt( "cbtt_scrape_save_interval", 0 );
 
+	if( CFG_GetInt( "cbtt_page_number_count" , 3 ) < 3 )
+		CFG_SetInt( "cbtt_page_number_count", 3);
+
 
 	//RSS Feed Support - code by labarks
 	if( CFG_GetString( "bnbt_rss_file", string( ) ).empty( ) )

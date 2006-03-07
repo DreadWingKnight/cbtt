@@ -287,6 +287,8 @@ private:
 	bool m_bRequireNoPeerID;
 	bool m_bRequireCompact;
 
+	unsigned int m_iPageRange;
+
 	int m_iRefreshFastCacheInterval;
 	unsigned long m_iRefreshFastCacheNext;
 

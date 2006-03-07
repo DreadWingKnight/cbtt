@@ -193,6 +193,9 @@ CTracker :: CTracker( )
 	m_iSaveScrapeInterval = CFG_GetInt( "cbtt_scrape_save_interval", 0 );
 	m_iSaveScrapeNext = GetTime( ) + m_iSaveScrapeInterval;
 
+	// Page Ranges
+	m_iPageRange = CFG_GetInt( "cbtt_page_number_count" , 3 );
+
 	//RSS Support - Code by labarks
 	m_strDumpRSSFile = CFG_GetString( "bnbt_rss_file", string( ) );
 	m_strDumpRSSFileDir = CFG_GetString( "bnbt_rss_online_dir", string( ) );
