@@ -36,6 +36,7 @@
 #include "sort.h"
 #include "tracker.h"
 #include "util.h"
+#include "link.h"
 
 map<string, string> gmapMime;
 
@@ -524,6 +525,86 @@ void CTracker :: saveScrapeFile( )
 	CAtomDicti *pFiles = new CAtomDicti( );
 
 	pScrape->setItem( "files", pFiles );
+
+
+	pScrape->setItem("version", new CAtomString( string( BNBT_VER ) ) );
+	CAtomDicti *pFeatures = new CAtomDicti( );
+	pFeatures->setItem("linking", new CAtomString( "ka" ) );
+	pFeatures->setItem("banning", new CAtomString( "cih" ) );
+	CAtomList *pStatistics = new CAtomList();
+	if( m_strDumpXMLFile != string() )
+		pStatistics->addItem( new CAtomString( "XML Dump" ));
+    pScrape->setItem("features", pFeatures);
+
+#ifdef BNBT_MYSQL
+	pStatistics->addItem( new CAtomString( "MySQL" ));
+	if ( m_bMySQLOverrideDState == true )
+		pScrape->setItem("database", new CAtomString( "MySQL Overriding DState" ) );
+	else
+	{
+		pScrape->setItem("database", new CAtomString( "MySQL Statistics Dump with Flatfile dstate" ) );
+		pStatistics->addItem( new CAtomString( "Dstate Dfile" ));
+	}
+#else
+	pScrape->setItem("database", new CAtomString( "Flatfile Dstate" ) );
+	pStatistics->addItem( new CAtomString( "Dstate Dfile" ));
+#endif
+	if( m_iSaveScrapeInterval > 0 )
+		pStatistics->addItem( new CAtomString( "Timed scrape save" ) );
+
+	pFeatures->setItem("statistics", pStatistics);
+
+	if( gpLinkServer )
+	{
+		long m_lTrackers;
+		long m_lInactiveTrackers;
+		m_lTrackers = 0;
+		m_lInactiveTrackers = 0;
+		gpLinkServer->m_mtxLinks.Claim( );
+		for( vector<CLinkClient *> :: iterator i = gpLinkServer->m_vecLinks.begin( ); i != gpLinkServer->m_vecLinks.end( ); i++ )
+		{
+			if( (*i)->m_bActive )
+				m_lTrackers++;
+			else
+				m_lInactiveTrackers++;
+		}
+		gpLinkServer->m_mtxLinks.Release( );
+		CAtomDicti *pTrackers = new CAtomDicti( );
+		if( m_lTrackers > 0 )
+			pTrackers->setItem("active", new CAtomLong(m_lTrackers) );
+		if( m_lInactiveTrackers > 0 )
+            pTrackers->setItem("inactive", new CAtomLong(m_lInactiveTrackers) );
+		if( m_lTrackers + m_lInactiveTrackers > 0 )
+            pTrackers->setItem("total", new CAtomLong(m_lTrackers + m_lInactiveTrackers) );
+		pScrape->setItem("links", pTrackers);
+	}
+	if( gpLink )
+	{
+		CAtomDicti *pTrackers = new CAtomDicti( );
+		pTrackers->setItem("active", new CAtomLong( 1 ) );
+		pTrackers->setItem("total", new CAtomLong( 1 ) );
+		pScrape->setItem("links", pTrackers);
+	}
+
+	if( m_pDFile )
+	{
+		pScrape->setItem("filecount", new CAtomLong( m_pDFile->getValuePtr( )->size( ) ) );
+		unsigned long iPeers = 0;
+
+		map<string, CAtom *> *pmapDicti = m_pDFile->getValuePtr( );
+
+		for( map<string, CAtom *> :: iterator i = pmapDicti->begin( ); i != pmapDicti->end( ); i++ )
+		{
+			if( (*i).second->isDicti( ) )
+				iPeers += ( (CAtomDicti *)(*i).second )->getValuePtr( )->size( );
+		}
+
+		pScrape->setItem("peers", new CAtomLong( iPeers ) );
+
+		if( m_bCountUniquePeers )
+			pScrape->setItem("unique", new CAtomLong( m_pIPs->getValuePtr( )->size( ) ) );
+	}
+
 #ifdef BNBT_MYSQL
    if( m_bMySQLOverrideDState && m_iMySQLRefreshStatsInterval > 0 )
    {
