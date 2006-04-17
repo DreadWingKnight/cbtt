@@ -84,12 +84,12 @@ CServer :: CServer( )
 	// Multiple Listen Ports
 	// Checking for legacy configuration values (compatibility)
 
-	if( ( sin.sin_port = htons( (u_short)CFG_GetInt("port",6969))) == 0)
-		UTIL_LogPrint( "server warning - invalid port %d (\"port\"), ignoring\n",CFG_GetInt("port",6969));
+	if( ( sin.sin_port = htons( (u_short)CFG_GetInt("port",26213))) == 0)
+		UTIL_LogPrint( "server warning - invalid port %d (\"port\"), ignoring\n",CFG_GetInt("port",26213));
 	else if( !AddListener( sin ) )
-		UTIL_LogPrint( "server warning - unable to add listener on port %d (\"port\")\n",CFG_GetInt("port",6969));
+		UTIL_LogPrint( "server warning - unable to add listener on port %d (\"port\")\n",CFG_GetInt("port",26213));
 	else
-		UTIL_LogPrint( "server - listening on port %d (\"port\")\n",CFG_GetInt("port",6969));
+		UTIL_LogPrint( "server - listening on port %d (\"port\")\n",CFG_GetInt("port",26213));
 
 	
 	// Multiple Listen Ports
@@ -122,11 +122,11 @@ CServer :: CServer( )
 	}
 
 
-	/*sin.sin_port = htons( (u_short)CFG_GetInt( "port", 6969 ) );
+	/*sin.sin_port = htons( (u_short)CFG_GetInt( "port", 26213 ) );
 
 	if( sin.sin_port < 1 || sin.sin_port > 65535 )
 	{
-		UTIL_LogPrint( "server error - invalid port %d\n", CFG_GetInt( "port", 6969 ) );
+		UTIL_LogPrint( "server error - invalid port %d\n", CFG_GetInt( "port", 26213 ) );
 
 		Kill( );
 	}*/

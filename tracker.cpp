@@ -197,12 +197,24 @@ CTracker :: CTracker( )
 	// Page Ranges
 	m_iPageRange = CFG_GetInt( "cbtt_page_number_count" , 3 );
 
+	// External Command
+	m_bEnableExternal = false;
+	m_strECommand = CFG_GetString( "cbtt_external_command", string( ) );
+	m_iECommandCycle = CFG_GetInt( "cbtt_external_command_interval", 300 );
+	m_iNextCommandCycle = GetTime( ) + m_iECommandCycle;
+
+	if( m_strECommand != string () )
+		m_bEnableExternal = true;
+
+	if( m_iECommandCycle == 0 )
+		m_bEnableExternal = false;
+
 	//RSS Support - Code by labarks
 	m_strDumpRSSFile = CFG_GetString( "bnbt_rss_file", string( ) );
 	m_strDumpRSSFileDir = CFG_GetString( "bnbt_rss_online_dir", string( ) );
 	m_iDumpRSSFileMode = CFG_GetInt( "bnbt_rss_file_mode", 0 );
 	m_strDumpRSSTitle = CFG_GetString( "bnbt_rss_channel_title", "My BNBT RSS Feed" );
-	m_strDumpRSSLink = CFG_GetString( "bnbt_rss_channel_link", "http://localhost:6969/" );
+	m_strDumpRSSLink = CFG_GetString( "bnbt_rss_channel_link", "http://localhost:26213/" );
 	m_strDumpRSSDescription = CFG_GetString( "bnbt_rss_channel_description", "BitTorrent RSS Feed for BNBT" );
 	m_iDumpRSS_TTL = CFG_GetInt( "bnbt_rss_channel_ttl", 60 );
 	m_strDumpRSSLanguage = CFG_GetString( "bnbt_rss_channel_language", "en-us" );
@@ -2565,6 +2577,29 @@ void CTracker :: Update( )
 		saveScrapeFile( );
 
 		m_iSaveScrapeNext = GetTime( ) + m_iSaveScrapeInterval;
+	}
+
+	if( GetTime( ) > m_iNextCommandCycle )
+	{
+		if( gbDebug )
+			UTIL_LogPrint( "tracker - checking to launch external command (%s)\n", m_strECommand.c_str() );
+		if ( m_bEnableExternal )
+		{
+			if( gbDebug )
+				UTIL_LogPrint( "tracker - launching external command\n");
+			m_iNextCommandCycle = GetTime( ) + m_iECommandCycle;
+#ifdef WIN32
+			STARTUPINFO si;
+			PROCESS_INFORMATION pi;
+			ZeroMemory( &si, sizeof( STARTUPINFO ) );
+			si.cb = sizeof( STARTUPINFO );
+			si.dwFlags = STARTF_USESHOWWINDOW;
+			si.wShowWindow = SW_SHOWNORMAL;
+			CreateProcess( NULL, (LPSTR )m_strECommand.c_str(), NULL, NULL, 0, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi );
+#else
+//			execvp( m_strECommand.c_str(), {(char *) 0 } );
+#endif
+		}
 	}
 
 	if( GetTime( ) > m_iSaveDFileNext )

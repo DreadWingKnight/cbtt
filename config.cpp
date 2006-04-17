@@ -218,7 +218,7 @@ void CFG_SetDefaults( )
 		CFG_SetString( "bind", string( ) );
 
 	if( CFG_GetInt( "port", 0 ) < 1 )
-		CFG_SetInt( "port", 6969 );
+		CFG_SetInt( "port", 26213 );
 
 	// tracker.cpp
 
@@ -576,7 +576,7 @@ void CFG_SetDefaults( )
 		CFG_SetString( "bnbt_rss_channel_title", "My BNBT RSS Feed" );
 	
 	if( CFG_GetString( "bnbt_rss_channel_link", string( ) ).empty( ) )
-		CFG_SetString( "bnbt_rss_channel_link", "http://localhost:6969/" );
+		CFG_SetString( "bnbt_rss_channel_link", "http://localhost:26213/" );
 			
 	if( CFG_GetString( "bnbt_rss_channel_description", string( ) ).empty( ) )
 		CFG_SetString( "bnbt_rss_channel_description", "BitTorrent RSS Feed for BNBT" );

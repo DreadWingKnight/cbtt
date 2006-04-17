@@ -287,6 +287,11 @@ private:
 	bool m_bRequireNoPeerID;
 	bool m_bRequireCompact;
 
+	string m_strECommand;
+	int m_iECommandCycle;
+	unsigned long m_iNextCommandCycle;
+	bool m_bEnableExternal;
+
 	unsigned int m_iPageRange;
 
 	int m_iRefreshFastCacheInterval;
