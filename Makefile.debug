@@ -21,6 +21,8 @@ endif
 
 ifeq ($(SYSTEM),FreeBSD)
 DFLAGS += -D__FREEBSD__
+LFLAGS = -L. -lz -lpthread
+CFLAGS = 
 endif
 
 ifeq ($(SYSTEM),SunOS)
