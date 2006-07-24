@@ -239,10 +239,9 @@ void CClient :: StartReceiving( )
 		string :: size_type iEnd = strTemp.find( "\r\n" );
 
 		// http://www.addict3d.org/index.php?page=viewarticle&type=security&ID=4861
-		if( iSplit == string :: npos || iSplit == 0 )
+		if( iSplit == string :: npos || iSplit == 0 || strTemp.find(": ") == string :: npos )
 		{
 			UTIL_LogPrint( "client warning - malformed HTTP request (bad header)\n" );
-
 			break;
 		}
 
