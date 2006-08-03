@@ -175,6 +175,7 @@ private:
 	//RSS Support - code by labarks
 	string m_strDumpRSSFile;
 	string m_strDumpRSSFileDir;
+	string m_strDumpRSSFileURL;
 	int m_iDumpRSSFileMode;
 	string m_strDumpRSSTitle;
 	string m_strDumpRSSLink;

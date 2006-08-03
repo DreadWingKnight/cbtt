@@ -568,6 +568,9 @@ void CFG_SetDefaults( )
 		
 	if( CFG_GetString( "bnbt_rss_online_dir", string( ) ).empty( ) )
 		CFG_SetString( "bnbt_rss_online_dir", string( ) );
+
+	if( CFG_GetString( "bnbt_rss_online_url", string( ) ).empty( ) )
+		CFG_SetString( "bnbt_rss_online_url", string( ) );
 		
 	if( CFG_GetInt( "bnbt_rss_file_mode", -1 ) < 0 )
 		CFG_SetInt( "bnbt_rss_file_mode", 0 );

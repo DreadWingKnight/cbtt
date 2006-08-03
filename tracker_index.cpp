@@ -47,8 +47,20 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 	//addition by labarks
 	if( !m_strDumpRSSFile.empty( ) )
 	{
-		if( m_iDumpRSSFileMode == 0 || m_iDumpRSSFileMode == 2 )
-			pResponse->strContent += "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"" + m_strDumpRSSFileDir + m_strDumpRSSFile + "\">\n";
+		pResponse->strContent += "<!-- Filename: " + m_strDumpRSSFile + " -->";
+		string :: size_type iExt2 = m_strDumpRSSFile.rfind( "\\" );
+		string :: size_type iExt = m_strDumpRSSFile.rfind( "/" );
+
+		string strPath;
+		
+		if( iExt != string :: npos )
+			strPath = m_strDumpRSSFile.substr( iExt );
+		if( iExt2 != string :: npos )
+			strPath = m_strDumpRSSFile.substr( iExt2 );
+		string m_strDumpRSSFileNameToUse = m_strDumpRSSFile.substr( m_strDumpRSSFile.length() - strPath.length() + 1, strPath.length() );
+
+		if( (m_iDumpRSSFileMode == 0 || m_iDumpRSSFileMode == 2) && !m_strDumpRSSFileURL.empty() )
+			pResponse->strContent += "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"" + m_strDumpRSSFileURL + m_strDumpRSSFileNameToUse + "\">\n";
 		// There's a bug here Harold, Remove this comment when fixed
 	}
 	//end addition

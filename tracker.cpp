@@ -212,6 +212,11 @@ CTracker :: CTracker( )
 	//RSS Support - Code by labarks
 	m_strDumpRSSFile = CFG_GetString( "bnbt_rss_file", string( ) );
 	m_strDumpRSSFileDir = CFG_GetString( "bnbt_rss_online_dir", string( ) );
+	m_strDumpRSSFileURL = CFG_GetString( "bnbt_rss_online_url", string( ) );
+	if( !m_strDumpRSSFileURL.empty( ) &&
+		m_strDumpRSSFileURL[m_strDumpRSSFileURL.size( ) - 1] != '/' &&
+		m_strDumpRSSFileURL[m_strDumpRSSFileURL.size( ) - 1] != '=' )
+			m_strDumpRSSFileURL += '/';
 	m_iDumpRSSFileMode = CFG_GetInt( "bnbt_rss_file_mode", 0 );
 	m_strDumpRSSTitle = CFG_GetString( "bnbt_rss_channel_title", "My BNBT RSS Feed" );
 	m_strDumpRSSLink = CFG_GetString( "bnbt_rss_channel_link", "http://localhost:26213/" );
