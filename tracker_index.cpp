@@ -68,10 +68,13 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 	pResponse->strContent += "</head>\n";
 	pResponse->strContent += "<body>\n";
 
-	if( user.strLogin.empty( ) )
-		pResponse->strContent += "<p class=\"login1_index\">You are not logged in. Click <a href=\"/login.html\">here</a> to login.</p>\n";
-	else
-		pResponse->strContent += "<p class=\"login2_index\">You are logged in as <span class=\"username\">" + UTIL_RemoveHTML( user.strLogin ) + "</span>. Click <a href=\"/login.html?logout=1\">here</a> to logout.</p>\n";
+	if( !m_bDisableLogon )
+	{
+		if( user.strLogin.empty( ) )
+			pResponse->strContent += "<p class=\"login1_index\">You are not logged in. Click <a href=\"/login.html\">here</a> to login.</p>\n";
+		else
+			pResponse->strContent += "<p class=\"login2_index\">You are logged in as <span class=\"username\">" + UTIL_RemoveHTML( user.strLogin ) + "</span>. Click <a href=\"/login.html?logout=1\">here</a> to logout.</p>\n";
+	}
 
 	if( user.iAccess & ACCESS_VIEW )
 	{

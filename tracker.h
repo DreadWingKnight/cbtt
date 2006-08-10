@@ -292,6 +292,7 @@ private:
 	int m_iECommandCycle;
 	unsigned long m_iNextCommandCycle;
 	bool m_bEnableExternal;
+	bool m_bDisableLogon;
 
 	unsigned int m_iPageRange;
 

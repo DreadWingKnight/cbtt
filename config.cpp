@@ -561,6 +561,9 @@ void CFG_SetDefaults( )
 	if( CFG_GetInt( "cbtt_page_number_count" , 2 ) < 3 )
 		CFG_SetInt( "cbtt_page_number_count", 3);
 
+	if( CFG_GetInt( "cbtt_hide_login_links", -1 ) < 0 )
+		CFG_SetInt( "cbtt_hide_login_links", 0 );
+
 
 	//RSS Feed Support - code by labarks
 	if( CFG_GetString( "bnbt_rss_file", string( ) ).empty( ) )

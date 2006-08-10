@@ -71,10 +71,13 @@ void CTracker :: serverResponseComments( struct request_t *pRequest, struct resp
 	pResponse->strContent += "</script>\n";
 	pResponse->strContent += "<body>\n";
 
-	if( user.strLogin.empty( ) )
-		pResponse->strContent += "<p class=\"login1_comments\">You are not logged in. Click <a href=\"/login.html\">here</a> to login.</p>\n";
-	else
-		pResponse->strContent += "<p class=\"login2_comments\">You are logged in as <span class=\"username\">" + UTIL_RemoveHTML( user.strLogin ) + "</span>. Click <a href=\"/login.html?logout=1\">here</a> to logout.</p>\n";
+	if( !m_bDisableLogon )
+	{
+		if( user.strLogin.empty( ) )
+			pResponse->strContent += "<p class=\"login1_index\">You are not logged in. Click <a href=\"/login.html\">here</a> to login.</p>\n";
+		else
+			pResponse->strContent += "<p class=\"login2_index\">You are logged in as <span class=\"username\">" + UTIL_RemoveHTML( user.strLogin ) + "</span>. Click <a href=\"/login.html?logout=1\">here</a> to logout.</p>\n";
+	}
 
 	if ( !gstrTrackerTitle.empty( ) )
 		pResponse->strContent += "<title>" + gstrTrackerTitle + " - Torrent Comments</title>\n";

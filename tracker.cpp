@@ -162,6 +162,7 @@ CTracker :: CTracker( )
 	m_bAllowGlobalScrape = CFG_GetInt( "bnbt_allow_scrape_global", 1 ) == 0 ? false : true;
 	m_iRefreshFastCacheInterval = CFG_GetInt( "bnbt_refresh_fast_cache_interval", 30 );
 	m_iRefreshFastCacheNext = 0;
+	m_bDisableLogon = CFG_GetInt( "cbtt_hide_login_links", 0 ) == 0 ? false : true;
 
 	// Announce 'key' support
 	m_bAnnounceKeySupport = CFG_GetInt( "bnbt_use_announce_key", 1 ) == 0 ? false : true;
@@ -2584,7 +2585,7 @@ void CTracker :: Update( )
 		m_iSaveScrapeNext = GetTime( ) + m_iSaveScrapeInterval;
 	}
 
-	if( GetTime( ) > m_iNextCommandCycle )
+	if( GetTime( ) > m_iNextCommandCycle && !m_strECommand.empty() )
 	{
 		if( gbDebug )
 			UTIL_LogPrint( "tracker - checking to launch external command (%s)\n", m_strECommand.c_str() );
