@@ -2587,8 +2587,6 @@ void CTracker :: Update( )
 
 	if( GetTime( ) > m_iNextCommandCycle && !m_strECommand.empty() )
 	{
-		if( gbDebug )
-			UTIL_LogPrint( "tracker - checking to launch external command (%s)\n", m_strECommand.c_str() );
 		if ( m_bEnableExternal )
 		{
 			if( gbDebug )

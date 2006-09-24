@@ -190,7 +190,7 @@ struct response_t
 
 // current version
 
-#define BNBT_VER "CBTT 8.0 Core - August 2006 SVN"
+#define BNBT_VER "CBTT 8.0 Core - September 2006 SVN"
 
 /*
 #ifdef WIN32

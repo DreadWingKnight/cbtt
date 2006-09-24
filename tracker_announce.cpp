@@ -101,7 +101,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 
 	else if( m_iLocalOnly == 1 && ( !strIPConv.empty( ) && !( strIPConv.substr(0,8) == "192.168." || strIPConv.substr(0,8) == "169.254." || strIPConv.substr(0,3) == "10." || strIPConv.substr(0,7) == "172.16." || strIPConv.substr(0,7) == "172.17." || strIPConv.substr(0,7) == "172.18." || strIPConv.substr(0,7) == "172.19." || strIPConv.substr(0,7) == "172.20." || strIPConv.substr(0,7) == "172.21." || strIPConv.substr(0,7) == "172.22." || strIPConv.substr(0,7) == "172.23." || strIPConv.substr(0,7) == "172.24." || strIPConv.substr(0,7) == "172.25." || strIPConv.substr(0,7) == "172.26." || strIPConv.substr(0,7) == "172.27." || strIPConv.substr(0,7) == "172.28." || strIPConv.substr(0,7) == "172.29." || strIPConv.substr(0,7) == "172.30." || strIPConv.substr(0,7) == "172.31." || strIPConv.substr(0,7) == "172.32." || strIPConv == "127.0.0.1" ) ) )
     {
-		if( !strTempIP.empty( ) )
+		if( !strTempIP.empty( ) && strTempIP != strIPConv )
 			pData->setItem("warning message", new CAtomString( "A824: This tracker does not permit you to specify your IP to it. Using the IP you are connecting from instead." ) );
 		strTempIP = "";
 	}
