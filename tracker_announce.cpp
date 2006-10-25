@@ -295,6 +295,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 	ann.iLeft = UTIL_StringTo64( strLeft.c_str( ) );
 	ann.strPeerID = strPeerID;
 	ann.strKey = strKey;
+	ann.bAbusive = false;
 
 
 	if( ( ann.iPort <= 1024 ) && m_iBlackListServicePorts )
