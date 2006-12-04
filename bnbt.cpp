@@ -81,6 +81,9 @@ void sigCatcher( int sig )
 {
 	signal( SIGABRT, sigCatcher );
 	signal( SIGINT, sigCatcher );
+	// 2006/12/04 and SIGTERM and SIGHUP
+	signal( SIGTERM, sigCatcher );
+	signal( SIGHUP, sigCatcher );
 
 	if( gpServer )
 	{
@@ -207,9 +210,12 @@ int main( int argc, char *argv[] )
 #endif
 
 	// catch SIGABRT and SIGINT
+	// 2006/12/04 and SIGTERM and SIGHUP
 
 	signal( SIGABRT, sigCatcher );
 	signal( SIGINT, sigCatcher );
+	signal( SIGTERM, sigCatcher );
+	signal( SIGHUP, sigCatcher );
 
 	return bnbtmain( );
 }

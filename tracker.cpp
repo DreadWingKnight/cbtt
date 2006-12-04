@@ -2468,7 +2468,8 @@ void CTracker :: Update( )
 			pList->addItem( new CAtomInt( ) );
 			pList->addItem( new CAtomString( ) );
 
-			m_pAllowed->setItem( vecQuery[0], new CAtomList( ) );
+			// 2006/12/04 fixed the memory leak...
+			m_pAllowed->setItem( vecQuery[0], pList );
 		}
 
 		delete pQuery;
