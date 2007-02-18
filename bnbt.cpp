@@ -83,7 +83,9 @@ void sigCatcher( int sig )
 	signal( SIGINT, sigCatcher );
 	// 2006/12/04 and SIGTERM and SIGHUP
 	signal( SIGTERM, sigCatcher );
+#ifndef WIN32
 	signal( SIGHUP, sigCatcher );
+#endif
 
 	if( gpServer )
 	{
@@ -215,7 +217,9 @@ int main( int argc, char *argv[] )
 	signal( SIGABRT, sigCatcher );
 	signal( SIGINT, sigCatcher );
 	signal( SIGTERM, sigCatcher );
+#ifndef WIN32
 	signal( SIGHUP, sigCatcher );
+#endif
 
 	return bnbtmain( );
 }
