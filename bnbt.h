@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #ifdef WIN32
  #define WIN32_LEAN_AND_MEAN
