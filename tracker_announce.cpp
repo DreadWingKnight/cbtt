@@ -92,17 +92,14 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 			strIP = strTempIP;
 		else
 		{
-			if( !strTempIP.empty() )
-			{
-				struct hostent *he;
-				struct in_addr **addr_list;
-				he = gethostbyname( strTempIP.c_str() );
-				addr_list = (struct in_addr **)he->h_addr_list;
-				strTempIP = inet_ntoa(*addr_list[0]);
+			struct hostent *he;
+			struct in_addr **addr_list;
+			he = gethostbyname( strTempIP.c_str() );
+			addr_list = (struct in_addr **)he->h_addr_list;
+			strIP = inet_ntoa(*addr_list[0]);
 			//	string strParseIP = inet_ntoa( gethostbyname( strTempIP.c_str( ) ). );
             //    pData->setItem("warning message", new CAtomString( "A473: The IP you have specified is invalid. Using the IP you are connecting from instead." ) );
 			//strTempIP = strParseIP;
-			}
 			//strTempIP = "";
 		}
 
@@ -121,17 +118,14 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 			strIP = strTempIP;
 		else
 		{
-			if( !strTempIP.empty() )
-			{
-				struct hostent *he;
-				struct in_addr **addr_list;
-				he = gethostbyname( strTempIP.c_str() );
-				addr_list = (struct in_addr **)he->h_addr_list;
-				strTempIP = inet_ntoa(*addr_list[0]);
+			struct hostent *he;
+			struct in_addr **addr_list;
+			he = gethostbyname( strTempIP.c_str() );
+			addr_list = (struct in_addr **)he->h_addr_list;
+			strIP = inet_ntoa(*addr_list[0]);
 			//	string strParseIP = inet_ntoa( gethostbyname( strTempIP.c_str( ) ). );
             //    pData->setItem("warning message", new CAtomString( "A473: The IP you have specified is invalid. Using the IP you are connecting from instead." ) );
 			//strTempIP = strParseIP;
-			}
 			//strTempIP = "";
 		}
 	}
