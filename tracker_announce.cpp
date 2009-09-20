@@ -94,7 +94,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 		{
 			struct hostent *he;
 			struct in_addr **addr_list;
-			if( he = gethostbyname( strTempIP.c_str() ) != NULL )
+			if( ( he = gethostbyname( strTempIP.c_str() ) ) != NULL )
 			{
 				addr_list = (struct in_addr **)he->h_addr_list;
 				strIP = inet_ntoa(*addr_list[0]);
@@ -122,7 +122,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 		{
 			struct hostent *he;
 			struct in_addr **addr_list;
-			if( he = gethostbyname( strTempIP.c_str() ) != NULL )
+			if( ( he = gethostbyname( strTempIP.c_str() ) ) != NULL )
 			{
 				addr_list = (struct in_addr **)he->h_addr_list;
 				strIP = inet_ntoa(*addr_list[0]);
