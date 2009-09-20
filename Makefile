@@ -4,7 +4,7 @@ C++ = g++
 DFLAGS =
 OFLAGS = -O2 -w
 LFLAGS = -L. -lz
-CFLAGS =
+CFLAGS = 
 
 ifeq ($(SYSTEM),Linux) 
 DFLAGS += -D__LINUX__ 
