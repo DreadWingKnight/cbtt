@@ -186,7 +186,7 @@ private:
 	int m_iDumpRSSImageWidth;
 	int m_iDumpRSSImageHeight;
 	string m_strDumpRSSCopyright;
-	int m_iDumpRSSLimit;
+	unsigned int m_iDumpRSSLimit;
 	int m_iDumpRSSInterval;
 	unsigned long m_iDumpRSSNext;
 	//end addition

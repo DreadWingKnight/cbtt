@@ -250,8 +250,6 @@ void CTracker :: serverResponseUploadPOST( struct request_t *pRequest, struct re
 		{
 			if( vecSegs[i]->isDicti( ) )
 			{
-				CAtomDicti *pSeg = (CAtomDicti *)vecSegs[i];
-
 				CAtom *pDisp = ( (CAtomDicti *)vecSegs[i] )->getItem( "disposition" );
 				CAtom *pDat = ( (CAtomDicti *)vecSegs[i] )->getItem( "data" );
 

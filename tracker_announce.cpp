@@ -212,10 +212,10 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 
 	string strUserAgent = pRequest->mapHeaders["User-Agent"];
     string struAgent = pRequest->mapHeaders["User-agent"];
-	if( strUserAgent.c_str() == "" )
+	if( strUserAgent.empty() )
 		strUserAgent = "Unknown";
 
-	if( struAgent.c_str() == "" )
+	if( struAgent.empty() )
 		struAgent = "Unknown";
 
 	if( i_intPeerSpoofRestrict == 1 )
@@ -362,9 +362,8 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 			if( pPeerIP && pPeerIP->isDicti( ) )
 			{
                 CAtom *pPeerLastAnnounce = ((CAtomDicti *)pPeerIP)->getItem( "lastannounce", new CAtomLong ( 0 ) );
-				CAtom *pPeerAbuseHash = ((CAtomDicti *)pPeerIP)->getItem( "lastinfohash" , new CAtomString( "" ) );
 				CAtom *pPeerAbuses = ((CAtomDicti *)pPeerIP)->getItem( "totalabuses" , new CAtomLong ( 0 ) );
-				CAtom *pPeerAbuseByHash = ((CAtomDicti *)pPeerIP)->getItem( "abusesbyhash" );
+				//CAtom *pPeerAbuseByHash = ((CAtomDicti *)pPeerIP)->getItem( "abusesbyhash" );
 				long m_lPeerAbuses = ((CAtomLong *)pPeerAbuses)->getValue( );
 				if( gbDebug )
 					UTIL_LogPrint( " Checking Abuse Rating \n" );
@@ -383,7 +382,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 					ann.bAbusive = false;
 				}
 				else {
-				if( ( m_lPeerAbuses >= m_iGlobalAbuseHammer ) && ( ( (m_lPeerAbuses * m_iAnnounceInterval) - 5 ) > ( GetRealTime( ) - ((CAtomLong *)pPeerLastAnnounce)->getValue( ) ) ) )
+				if( ( m_lPeerAbuses >= m_iGlobalAbuseHammer ) && ( ( (m_lPeerAbuses * m_iAnnounceInterval) - 5 ) > (long)( GetRealTime( ) - ((CAtomLong *)pPeerLastAnnounce)->getValue( ) ) ) )
 				{
 					if( gbDebug )
 						UTIL_LogPrint( " Hammering Abuse - Abuse # %i\n", m_lPeerAbuses );
@@ -392,7 +391,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 					ann.bAbusive = true;
 					ann.bIncrement = true;
 				}
-				else if( m_iMinAnnounceInterval - 5 > ( GetRealTime( ) - ((CAtomLong *)pPeerLastAnnounce)->getValue( ) ) )
+				else if( m_iMinAnnounceInterval - 5 > (long)( GetRealTime( ) - ((CAtomLong *)pPeerLastAnnounce)->getValue( ) ) )
 				{
 					if( gbDebug )
 						UTIL_LogPrint( " Standard Abuse \n" );
@@ -621,7 +620,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 
 						for( int i = 0; i < 3; i++ )
 						{
-							if( pSplit = strstr( szCur, "." ) )
+							if( (pSplit = strstr( szCur, "." )) )
 							{
 								*pSplit = '\0';
 								pCompact[i] = (char)atoi( szCur );

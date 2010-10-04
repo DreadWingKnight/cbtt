@@ -567,7 +567,7 @@ void CClient :: Process( )
 
 	string strRequest;
 
-	int iNewLine = m_strReceiveBuf.find( "\r\n" );
+	unsigned int iNewLine = m_strReceiveBuf.find( "\r\n" );
 
 	if( iNewLine != string :: npos )
 		strRequest = m_strReceiveBuf.substr( 0, iNewLine );

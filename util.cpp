@@ -213,9 +213,9 @@ void UTIL_AccessLogPrint( string strIP, string strUser, string strRequest, int i
 			// timezone has the wrong sign, change it
 
 			if( timezone > 0 )
-				fprintf( gpAccessLog, "[%s -%02d%02d] ", pTime, abs( timezone / 3600 ) % 60, abs( timezone / 60 ) % 60 );
+				fprintf( gpAccessLog, "[%s -%02ld%02ld] ", pTime, abs( timezone / 3600 ) % 60, abs( timezone / 60 ) % 60 );
 			else
-				fprintf( gpAccessLog, "[%s +%02d%02d] ", pTime, abs( timezone / 3600 ) % 60, abs( timezone / 60 ) % 60 );
+				fprintf( gpAccessLog, "[%s +%02ld%02ld] ", pTime, abs( timezone / 3600 ) % 60, abs( timezone / 60 ) % 60 );
 
 			fprintf( gpAccessLog, "\"%s\" %d %d\n", strRequest.c_str( ), iStatus, iBytes );
 
@@ -739,8 +739,6 @@ string UTIL_InfoHash( CAtom *pTorrent )
 
 		if( pInfo && pInfo->isDicti( ) )
 		{
-			CAtomDicti *pInfoDicti = (CAtomDicti *)pInfo;
-
 			// encode the string
 
 			string strData = Encode( pInfo );
@@ -752,12 +750,15 @@ string UTIL_InfoHash( CAtom *pTorrent )
 			hasher.Update( (unsigned char *)strData.c_str( ), strData.size( ) );
 			hasher.Final( );
 
-			char szInfoHash[64];
-			memset( szInfoHash, 0, sizeof( char ) * 64 );
+			UINT_8 binHash[20];
+			string resultstr;
 
-			hasher.ReportHash( szInfoHash );
-
-			return UTIL_StringToHash( szInfoHash );
+			if (hasher.GetHash(binHash)) {
+				for (int i=0; i<20; i++) {
+					resultstr+=binHash[i];
+				}
+				return resultstr;
+			}
 		}
 	}
 

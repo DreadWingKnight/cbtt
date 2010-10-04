@@ -35,7 +35,11 @@ typedef unsigned char *POINTER;
 typedef unsigned short int UINT2;
 
 /* UINT4 defines a four byte word */
+#if (ULONG_MAX == 0xFFFFFFFF)
 typedef unsigned long int UINT4;
+#else
+typedef unsigned int UINT4;
+#endif
 
 #define PROTO_LIST(list) list
 

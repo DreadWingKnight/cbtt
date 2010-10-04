@@ -52,7 +52,7 @@ CLink :: CLink( )
 
 	struct hostent *pHE;
 
-	if( pHE = gethostbyname( m_strIP.c_str( ) ) )
+	if( (pHE = gethostbyname( m_strIP.c_str( ) )) )
 		memcpy( &sin.sin_addr, pHE->h_addr, pHE->h_length );
 	else if( ( sin.sin_addr.s_addr = inet_addr( m_strIP.c_str( ) ) ) == INADDR_NONE )
 	{

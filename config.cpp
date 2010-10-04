@@ -303,7 +303,7 @@ void CFG_SetDefaults( )
 	if( CFG_GetInt( "max_give", -1 ) < 0 )
 		CFG_SetInt( "max_give", 200 );
 
-	if( CFG_GetInt( "keep_dead", -1 ) < 0 )
+	if( CFG_GetInt( "keep_dead", -1 ) < 0 ) {
 		if( CFG_GetInt( "bnbt_display_all", -1) >= 0 ){
 			if( CFG_GetInt( "bnbt_display_all", -1) == 0 )
 				CFG_SetInt( "keep_dead", 0 );
@@ -312,6 +312,7 @@ void CFG_SetDefaults( )
 		}
 		else
 			CFG_SetInt( "keep_dead", 0 );
+	}
 
 	if( CFG_GetInt( "bnbt_allow_scrape", -1 ) < 0 )
 		CFG_SetInt( "bnbt_allow_scrape", 1 );
@@ -440,12 +441,13 @@ void CFG_SetDefaults( )
 	if( CFG_GetString( "cbtt_ban_file", string( ) ).empty( ) )
 		CFG_SetString( "cbtt_ban_file", "clientbans.bnbt" );
 
-	if( CFG_GetString( "cbtt_service_name", string() ).empty() )
+	if( CFG_GetString( "cbtt_service_name", string() ).empty() ) {
 		if( !CFG_GetString( "trinity_nt_service_name",string()).empty() )
 			CFG_SetString( "cbtt_service_name", CFG_GetString( "trinity_nt_service_name",string()) );
 		else
 			CFG_SetString( "cbtt_service_name", "BNBT Service" );
-		
+	}
+
 	if( CFG_GetInt( "cbtt_ip_ban_mode", -1 ) < 0 )
 		CFG_SetInt( "cbtt_ip_ban_mode", 0 );
 
@@ -461,13 +463,14 @@ void CFG_SetDefaults( )
 	if( CFG_GetString( "cbtt_restrict_overflow_limit", string( ) ).empty( ) )
 		CFG_SetString( "cbtt_restrict_overflow_limit", "1099511627776" );
 
-	if( CFG_GetInt( "cbtt_block_private_ip", -1 ) < 0 )
+	if( CFG_GetInt( "cbtt_block_private_ip", -1 ) < 0 ) {
 		if( CFG_GetInt( "bnbt_block_private_ip", -1 ) >= 0 ) {
             CFG_SetInt( "cbtt_block_private_ip", CFG_GetInt( "bnbt_block_private_ip", -1 ));
 			CFG_Delete( "bnbt_block_private_ip");
 		}
 		else
 			CFG_SetInt( "cbtt_block_private_ip", 0 );
+	}
 
 	if( CFG_GetInt( "cbtt_blacklist_common_p2p_ports", -1) < 0)
 		CFG_SetInt( "cbtt_blacklist_common_p2p_ports", 0);

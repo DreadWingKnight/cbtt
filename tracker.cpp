@@ -989,7 +989,7 @@ void CTracker :: saveRSS( string strChannelTag )
 {
 	string strData;
 	string strLink = m_strDumpRSSLink;
-	int intLimit;
+	unsigned long intLimit;
 
 	strData += "<?xml version=\"1.0\" encoding=\"" + gstrCharSet + "\" ?>\n";
 	strData += "<rss version=\"2.0\">\n";
@@ -1260,7 +1260,7 @@ void CTracker :: expireDownloaders( )
 
 				for( map<string, CAtom *> :: iterator j = pmapPeersDicti->begin( ); j != pmapPeersDicti->end( ); )
 				{
-					if( (*j).second->isLong( ) && ( (CAtomLong *)(*j).second )->getValue( ) < m_iPrevTime )
+					if( (*j).second->isLong( ) && (unsigned long)( (CAtomLong *)(*j).second )->getValue( ) < m_iPrevTime )
 					{
 						if( m_pDFile )
 						{
@@ -1380,7 +1380,7 @@ void CTracker :: parseTorrents( const char *szDir )
 					CAtom *pLen = pInfoDicti->getItem( "length" );
 					CAtom *pFiles = pInfoDicti->getItem( "files" );
 
-					if( pName && ( pLen && pLen->isLong( ) || ( pFiles && pFiles->isList( ) ) ) )
+					if( pName && ( (pLen && pLen->isLong( )) || ( pFiles && pFiles->isList( ) ) ) )
 					{
 						CAtomList *pList = new CAtomList( );
 
@@ -1566,7 +1566,7 @@ void CTracker :: parseTorrent( const char *szFile )
 			CAtom *pLen = pInfoDicti->getItem( "length" );
 			CAtom *pFiles = pInfoDicti->getItem( "files" );
 
-			if( pName && ( pLen && pLen->isLong( ) || ( pFiles && pFiles->isList( ) ) ) )
+			if( pName && ( (pLen && pLen->isLong( )) || ( pFiles && pFiles->isList( ) ) ) )
 			{
 				CAtomList *pList = new CAtomList( );
 

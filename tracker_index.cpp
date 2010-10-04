@@ -628,12 +628,12 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 
 			bool bFound = false;
 
-			int iAdded = 0;
+			unsigned int iAdded = 0;
 			int iSkipped = 0;
 
 			// for correct page numbers after searching
 
-			int iFound = 0;
+			unsigned int iFound = 0;
 
 			for( unsigned long i = 0; i < iKeySize; i++ )
 			{
@@ -1453,9 +1453,6 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 
 			// page numbers
 
-			// Number of items to show left/right of the current page:
-			unsigned int pageRange = 3;
-			
 			if( m_override_iPerPage > 0 )
 			{
 				pResponse->strContent += "<table class=\"pagenumbers\"><tr><td width=\"39%\"><p align=\"right\" class=\"pagenum_bottom\">";
