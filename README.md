@@ -21,4 +21,4 @@ Build instructions:
 Optional make functions
 * C++=<C++/G++ compiler>
  * This is useful if you have a multi-platform distcc compile cluster.
- * For example, you can use this to specify "distcc <host compiler>" and only builders with a compatible gcc toolchain installed will attempt to build (so that you use x86_64-pc-linux-gnu only for your 64-bit systems or arm-linux-gnueabihf for your Raspberry Pi/Banana Pi/Hummingboard/etc)
+ * For example, you can use this to specify "distcc (host compiler)" and only builders with a compatible gcc toolchain installed will attempt to build (so that you use x86_64-pc-linux-gnu only for your 64-bit systems or arm-linux-gnueabihf for your Raspberry Pi/Banana Pi/Hummingboard/etc)
