@@ -1,8 +1,14 @@
 SHELL = /bin/sh
 SYSTEM = $(shell uname)
+
+ifdef C++
+C++ = $(C++)
+else
 C++ = g++
-DFLAGS =
-OFLAGS = -O2 -w
+endif
+
+DFLAGS = -DSHA1_NO_UTILITY_FUNCTIONS -DSHA1_NO_STL_FUNCTIONS
+OFLAGS = -O2 -Wall
 LFLAGS = -L. -lz -static -static-libgcc
 CFLAGS = 
 
