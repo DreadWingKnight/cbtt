@@ -3,6 +3,8 @@ cbtt
 
 CBTT Github Repository
 
+This branch is the start of development towards using libevent for socket polling and handling instead of the custom server currently used. The objective is to replace all socket code with libevent based code to improve socket performance on some platforms.
+
 Currently Tested Platforms (Direct by DreadWingKnight):
 * Linux x86 and x86-64
 * Linux ARM (Raspberry Pi Raspbian)
@@ -15,6 +17,7 @@ Other platforms reported to work
 Build instructions:
 * Have zlib installed
 * Have pthreads installed
+* Have libevent installed
 * (Optional) Have the MySQL Development libraries and headers installed
 * run "make bnbt" or "make bnbtmysql" depending on if you need MySQL support or not (gmake on *BSD)
 
