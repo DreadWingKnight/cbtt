@@ -1,8 +1,8 @@
 SHELL = /bin/sh
 SYSTEM = $(shell uname)
 
-ifdef CPP
-C++ = $(CPP)
+ifdef CXX
+C++ = $(CXX)
 else
 C++ = g++
 endif
