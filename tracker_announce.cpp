@@ -430,6 +430,8 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 					*/
 				}
 				}
+				delete pPeerLastAnnounce;
+				delete pPeerAbuses;
 			}
 		}
 
