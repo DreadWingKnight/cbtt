@@ -508,7 +508,7 @@ bool CServer :: AddListener( struct sockaddr_in sin )
 	//	Allows the socket to be bound to an address that is already in use.
 	// SO_REUSEADDR is not supported on Linux and has some issues on *BSD platforms.
 	// If setting the SO_REUSEADDR fails, binding will still attempt to happen.
-	if( setsockopt( sckListener, SOL_SOCKET, SO_REUSEADDR, (const void *)&iOptVal, sizeof( int ) ) == SOCKET_ERROR );
+	if( setsockopt( sckListener, SOL_SOCKET, SO_REUSEADDR, (const void *)&iOptVal, sizeof( int ) ) == SOCKET_ERROR )
 	{
 		if(GetLastError() != 0)
 		{
