@@ -832,7 +832,7 @@ string UTIL_ReadFile( const char *szFile )
 	}
 
 	fseek( pFile, 0, SEEK_END );
-	unsigned long ulFileSize = ftell( pFile );
+	long ulFileSize = ftell( pFile );
 	fseek( pFile, 0, SEEK_SET );
 	char *pData = (char *)malloc( sizeof( char ) * ulFileSize );
 	memset( pData, 0, sizeof( char ) * ulFileSize );
@@ -840,7 +840,7 @@ string UTIL_ReadFile( const char *szFile )
 	fclose( pFile );
 	string strFile( pData, ulFileSize );
 	free( pData );
-
+	delete ulFileSize;
 	return strFile;
 }
 
