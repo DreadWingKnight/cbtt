@@ -41,6 +41,7 @@ CClient :: CClient( SOCKET sckClient, struct sockaddr_in sinAddress, struct time
 
 	rqst.sin = sinAddress;
 	rsp.bCompressOK = true;
+	m_bKeepAlive = false;
 
 	m_iState = CS_RECEIVING;
 }
