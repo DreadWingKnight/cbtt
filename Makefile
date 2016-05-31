@@ -2,9 +2,9 @@ SHELL = /bin/sh
 SYSTEM = $(shell uname)
 
 ifdef CXX
-C++ = $(CXX)
+CPPA = $(CXX)
 else
-C++ = g++
+CPPA = g++
 endif
 
 DFLAGS = -DSHA1_NO_UTILITY_FUNCTIONS -DSHA1_NO_STL_FUNCTIONS
@@ -48,19 +48,19 @@ PROGS = ./bnbt ./bnbtmysql
 all: $(OBJS) $(OBJS_BNBT) $(OBJS_BNBTMYSQL) $(PROGS)
 
 ./bnbt: $(OBJS) $(OBJS_BNBT)
-	$(C++) -o ./bnbt $(OBJS) $(OBJS_BNBT) $(LFLAGS)
+	$(CPPA) -o ./bnbt $(OBJS) $(OBJS_BNBT) $(LFLAGS)
 
 ./bnbtmysql: $(OBJS) $(OBJS_BNBTMYSQL)
-	$(C++) -o ./bnbtmysql $(OBJS) $(OBJS_BNBTMYSQL) $(LFLAGS) -L/usr/lib/mysql -lmysqlclient
+	$(CPPA) -o ./bnbtmysql $(OBJS) $(OBJS_BNBTMYSQL) $(LFLAGS) -L/usr/lib/mysql -lmysqlclient
 
 clean:
 	rm -f $(OBJS) $(OBJS_BNBT) $(OBJS_BNBTMYSQL) $(PROGS)
 
 %.o: %.cpp
-	$(C++) -o $@ $(CFLAGS) -c $<
+	$(CPPA) -o $@ $(CFLAGS) -c $<
 
 %.mysql.o: %.cpp
-	$(C++) -o $@ $(CFLAGS) -DBNBT_MYSQL -c $<
+	$(CPPA) -o $@ $(CFLAGS) -DBNBT_MYSQL -c $<
 
 ./bnbt: $(OBJS) $(OBJS_BNBT)
 
