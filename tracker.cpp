@@ -1344,7 +1344,15 @@ void CTracker :: parseTorrents( const char *szDir )
 
 			char szFile[1024];
 			memset( szFile, 0, sizeof( char ) * 1024 );
-			strcpy( szFile, szDir );
+			if( strlen( szDir ) <= 1024 )
+			{
+				strcpy( szFile, szDir );
+			}
+			else
+			{
+				UTIL_LogPrint("Parser Warning - Path length greater than 1024 bytes for a file, Skipping");
+				continue;
+			}
 
 #ifdef WIN32
 			string strFileName = fdt.cFileName;
