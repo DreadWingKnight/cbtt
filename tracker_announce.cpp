@@ -409,7 +409,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 					}
 					else 
 					{
-						if( ann.strEvent != "completed" || ann.strEvent != "stopped" )
+						if( ann.strEvent != "completed" && ann.strEvent != "stopped" )
 						{
 							if( gbDebug )
 								UTIL_LogPrint( " Warned for %i Abuses \n", m_lPeerAbuses );
