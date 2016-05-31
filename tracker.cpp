@@ -926,7 +926,7 @@ void CTracker :: saveXML( )
 							CAtom *pLef = pPeerDicti->getItem( "left" );
 							CAtom *pConn = pPeerDicti->getItem( "connected" );
 
-							if( ( (CAtomLong *)pLef )->getValue( ) == 0 )
+							if( pLef != NULL && ( (CAtomLong *)pLef )->getValue( ) == 0 )
 								iComplete++;
 							else
 								iDL++;
@@ -944,7 +944,7 @@ void CTracker :: saveXML( )
 							if( pDowned )
 								tmpData += " downloaded=\"" + pDowned->toString( ) + "\"";
 
-							if( pLef && pLef->isLong( ) )
+							if( pLef != NULL && pLef && pLef->isLong( ) )
 								tmpData += " left=\"" + pLef->toString( ) + "\"";
 
 							if( pConn && pConn->isLong( ) )
