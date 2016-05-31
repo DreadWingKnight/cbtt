@@ -334,6 +334,5 @@ CAtom *DecodeFile( const char *szFile )
 	fclose( pFile );
 	string strFile( pData, ulFileSize );
 	free( pData );
-	delete *ulFileSize;
 	return Decode( strFile );
 }

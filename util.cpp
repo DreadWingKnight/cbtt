@@ -840,7 +840,6 @@ string UTIL_ReadFile( const char *szFile )
 	fclose( pFile );
 	string strFile( pData, ulFileSize );
 	free( pData );
-	delete *ulFileSize;
 	return strFile;
 }
 
