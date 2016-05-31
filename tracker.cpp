@@ -1350,7 +1350,7 @@ void CTracker :: parseTorrents( const char *szDir )
 			}
 			else
 			{
-				UTIL_LogPrint("Parser Warning - Path length greater than 1024 bytes for a file, Skipping");
+				UTIL_LogPrint("Parser Warning - Path length greater than 1024 bytes for a file, Skipping file.");
 				continue;
 			}
 
@@ -1359,8 +1359,16 @@ void CTracker :: parseTorrents( const char *szDir )
 #else
 			string strFileName = dp->d_name;
 #endif
-
-			strcat( szFile, strFileName.c_str( ) );
+			if ( strlen( strFileName.c_str( ) ) <= 1024 )
+			{
+				strcat( szFile, strFileName.c_str( ) );
+			}
+			else
+			{
+				UTIL_LogPrint("Parser Warning - Path length greater than 1024 bytes for a file, Skipping file.");
+				continue;
+			}
+		
 
 #ifndef WIN32
 			if( strlen( szFile ) > strlen( ".torrent" ) )
