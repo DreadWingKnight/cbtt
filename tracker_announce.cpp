@@ -655,7 +655,7 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 							strPeers += string( pCompact, 6 );
 						}
 
-						delete szIP;
+						delete[] szIP;
 					}
 
 					delete *i;
