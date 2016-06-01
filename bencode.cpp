@@ -93,15 +93,15 @@ string EncodeList( const CAtomList &x )
 
 	for( vector<CAtom *> :: iterator i = pv->begin( ); i != pv->end( ); i++ )
 	{
-		if( dynamic_cast<CAtomInt *>( *i ) )
+		if( dynamic_cast<CAtomInt *>( *i ) && dynamic_cast<CAtomInt *>( *i ) != NULL )
 			strDest += EncodeInt( *dynamic_cast<CAtomInt *>( *i ) );
-		else if( dynamic_cast<CAtomLong *>( *i ) )
+		else if( dynamic_cast<CAtomLong *>( *i ) && dynamic_cast<CAtomLong *>( *i ) != NULL )
 			strDest += EncodeLong( *dynamic_cast<CAtomLong *>( *i ) );
-		else if( dynamic_cast<CAtomString *>( *i ) )
+		else if( dynamic_cast<CAtomString *>( *i ) && dynamic_cast<CAtomString *>( *i ) != NULL )
 			strDest += EncodeString( *dynamic_cast<CAtomString *>( *i ) );
-		else if( dynamic_cast<CAtomList *>( *i ) )
+		else if( dynamic_cast<CAtomList *>( *i ) && dynamic_cast<CAtomList *>( *i ) != NULL )
 			strDest += EncodeList( *dynamic_cast<CAtomList *>( *i ) );
-		else if( dynamic_cast<CAtomDicti *>( *i ) )
+		else if( dynamic_cast<CAtomDicti *>( *i ) && dynamic_cast<CAtomDicti *>( *i ) != NULL )
 			strDest += EncodeDicti( *dynamic_cast<CAtomDicti *>( *i ) );
 	}
 
@@ -122,15 +122,15 @@ string EncodeDicti( const CAtomDicti &x )
 	{
 		strDest += EncodeString( CAtomString( (*i).first ) );
 
-		if( dynamic_cast<CAtomInt *>( (*i).second ) )
+		if( dynamic_cast<CAtomInt *>( (*i).second ) && dynamic_cast<CAtomInt *>( (*i).second ) != NULL )
 			strDest += EncodeInt( *dynamic_cast<CAtomInt *>( (*i).second ) );
-		else if( dynamic_cast<CAtomLong *>( (*i).second ) )
+		else if( dynamic_cast<CAtomLong *>( (*i).second ) && dynamic_cast<CAtomLong *>( (*i).second ) != NULL )
 			strDest += EncodeLong( *dynamic_cast<CAtomLong *>( (*i).second ) );
-		else if( dynamic_cast<CAtomString *>( (*i).second ) )
+		else if( dynamic_cast<CAtomString *>( (*i).second ) && dynamic_cast<CAtomString *>( (*i).second ) != NULL )
 			strDest += EncodeString( *dynamic_cast<CAtomString *>( (*i).second ) );
-		else if( dynamic_cast<CAtomList *>( (*i).second ) )
+		else if( dynamic_cast<CAtomList *>( (*i).second ) && dynamic_cast<CAtomList *>( (*i).second ) != NULL )
 			strDest += EncodeList( *dynamic_cast<CAtomList *>( (*i).second ) );
-		else if( dynamic_cast<CAtomDicti *>( (*i).second ) )
+		else if( dynamic_cast<CAtomDicti *>( (*i).second ) && dynamic_cast<CAtomDicti *>( (*i).second ) != NULL )
 			strDest += EncodeDicti( *dynamic_cast<CAtomDicti *>( (*i).second ) );
 	}
 
@@ -141,15 +141,15 @@ string EncodeDicti( const CAtomDicti &x )
 
 string Encode( CAtom *pAtom )
 {
-	if( dynamic_cast<CAtomInt *>( pAtom ) )
+	if( dynamic_cast<CAtomInt *>( pAtom ) && dynamic_cast<CAtomInt *>( pAtom ) != NULL )
 		return EncodeInt( *dynamic_cast<CAtomInt *>( pAtom ) );
-	else if( dynamic_cast<CAtomLong *>( pAtom ) )
+	else if( dynamic_cast<CAtomLong *>( pAtom ) && dynamic_cast<CAtomLong *>( pAtom ) != NULL )
 		return EncodeLong( *dynamic_cast<CAtomLong *>( pAtom ) );
-	else if( dynamic_cast<CAtomString *>( pAtom ) )
+	else if( dynamic_cast<CAtomString *>( pAtom ) && dynamic_cast<CAtomString *>( pAtom ) != NULL )
 		return EncodeString( *dynamic_cast<CAtomString *>( pAtom ) );
-	else if( dynamic_cast<CAtomList *>( pAtom ) )
+	else if( dynamic_cast<CAtomList *>( pAtom ) && dynamic_cast<CAtomList *>( pAtom ) != NULL )
 		return EncodeList( *dynamic_cast<CAtomList *>( pAtom ) );
-	else if( dynamic_cast<CAtomDicti *>( pAtom ) )
+	else if( dynamic_cast<CAtomDicti *>( pAtom ) &&  dynamic_cast<CAtomDicti *>( pAtom ) != NULL )
 		return EncodeDicti( *dynamic_cast<CAtomDicti *>( pAtom ) );
 
 	return string( );

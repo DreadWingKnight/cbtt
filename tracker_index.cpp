@@ -283,10 +283,10 @@ void CTracker :: serverResponseIndex( struct request_t *pRequest, struct respons
 								if( pAdded )
 									pTorrents[i].strAdded = pAdded->toString( );
 
-								if( pSize && dynamic_cast<CAtomLong *>( pSize ) )
+								if( pSize && dynamic_cast<CAtomLong *>( pSize ) && dynamic_cast<CAtomLong *>( pSize ) != NULL )
 									pTorrents[i].iSize = dynamic_cast<CAtomLong *>( pSize )->getValue( );
 
-								if( pFiles && dynamic_cast<CAtomInt *>( pFiles ) )
+								if( pFiles && dynamic_cast<CAtomInt *>( pFiles ) && dynamic_cast<CAtomInt *>( pFiles ) != NULL )
 									pTorrents[i].iFiles = dynamic_cast<CAtomInt *>( pFiles )->getValue( );
 							}
 						}

@@ -258,7 +258,7 @@ void CTracker :: serverResponseStats( struct request_t *pRequest, struct respons
 						if( pAdded )
 							pResponse->strContent += "<li><strong>Added:</strong> " + pAdded->toString( ) + "</li>\n";
 
-						if( pSize && dynamic_cast<CAtomLong *>( pSize ) )
+						if( pSize && dynamic_cast<CAtomLong *>( pSize ) && dynamic_cast<CAtomLong *>( pSize ) != NULL )
 						{
 							// cache iSize
 
@@ -267,7 +267,7 @@ void CTracker :: serverResponseStats( struct request_t *pRequest, struct respons
 							pResponse->strContent += "<li><strong>Size:</strong> " + UTIL_BytesToString( iSize ) + "</li>\n";
 						}
 
-						if( pFiles && dynamic_cast<CAtomInt *>( pFiles ) )
+						if( pFiles && dynamic_cast<CAtomInt *>( pFiles ) && dynamic_cast<CAtomInt *>( pFiles ) != NULL )
 						{
 							// cache iFiles
 

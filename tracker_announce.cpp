@@ -644,8 +644,8 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 							pCompact[3] = (char)atoi( szCur );
 
 							// port
-
-							unsigned int iPort = (unsigned int)dynamic_cast<CAtomLong *>( pPort )->getValue( );
+							if ( dynamic_cast<CAtomLong *>( pPort ) != NULL )
+								unsigned int iPort = (unsigned int)dynamic_cast<CAtomLong *>( pPort )->getValue( );
 
 #ifdef BNBT_BIG_ENDIAN
 							pCompact[5] = (char)( ( iPort & 0xFF00 ) >> 8 );
@@ -714,12 +714,14 @@ void CTracker :: serverResponseAnnounce( struct request_t *pRequest, struct resp
 
 		CAtom *pFC = m_pFastCache->getItem( strInfoHash );
 
-		if( pFC && dynamic_cast<CAtomList *>( pFC ) )
+		if( pFC && dynamic_cast<CAtomList *>( pFC ) && dynamic_cast<CAtomList *>( pFC ) != NULL )
 		{
 			vector<CAtom *> vecList = dynamic_cast<CAtomList *>( pFC )->getValue( );
-
-			pData->setItem( "complete", new CAtomInt( *dynamic_cast<CAtomInt *>( vecList[0] ) ) );
-			pData->setItem( "incomplete", new CAtomInt( *dynamic_cast<CAtomInt *>( vecList[1] ) ) );
+			
+			if ( dynamic_cast<CAtomInt *>( vecList[0] ) != NULL )
+				pData->setItem( "complete", new CAtomInt( *dynamic_cast<CAtomInt *>( vecList[0] ) ) );
+			if ( dynamic_cast<CAtomInt *>( vecList[1] ) != NULL )
+				pData->setItem( "incomplete", new CAtomInt( *dynamic_cast<CAtomInt *>( vecList[1] ) ) );
 		}
 
 		pResponse->strContent = Encode( pData );

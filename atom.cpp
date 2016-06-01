@@ -330,15 +330,15 @@ CAtomDicti :: CAtomDicti( const CAtomDicti &c )
 
 	for( map<string, CAtom *> :: iterator i = pmapDicti->begin( ); i != pmapDicti->end( ); i++ )
 	{
-		if( dynamic_cast<CAtomInt *>( (*i).second ) )
+		if( dynamic_cast<CAtomInt *>( (*i).second ) && dynamic_cast<CAtomInt *>( (*i).second ) != NULL )
 			setItem( (*i).first, new CAtomInt( *dynamic_cast<CAtomInt *>( (*i).second ) ) );
-		else if( dynamic_cast<CAtomLong *>( (*i).second ) )
+		else if( dynamic_cast<CAtomLong *>( (*i).second ) && dynamic_cast<CAtomLong *>( (*i).second ) != NULL )
 			setItem( (*i).first, new CAtomLong( *dynamic_cast<CAtomLong *>( (*i).second ) ) );
-		else if( dynamic_cast<CAtomString *>( (*i).second ) )
+		else if( dynamic_cast<CAtomString *>( (*i).second ) && dynamic_cast<CAtomString *>( (*i).second ) != NULL )
 			setItem( (*i).first, new CAtomString( *dynamic_cast<CAtomString *>( (*i).second ) ) );
-		else if( dynamic_cast<CAtomList *>( (*i).second ) )
+		else if( dynamic_cast<CAtomList *>( (*i).second ) && dynamic_cast<CAtomList *>( (*i).second ) != NULL )
 			setItem( (*i).first, new CAtomList( *dynamic_cast<CAtomList *>( (*i).second ) ) );
-		else if( dynamic_cast<CAtomDicti *>( (*i).second ) )
+		else if( dynamic_cast<CAtomDicti *>( (*i).second ) && dynamic_cast<CAtomDicti *>( (*i).second ) != NULL )
 			setItem( (*i).first, new CAtomDicti( *dynamic_cast<CAtomDicti *>( (*i).second ) ) );
 		else
 			UTIL_LogPrint( "error copying dictionary - found invalid atom, ignoring\n" );
