@@ -673,7 +673,8 @@ void CTracker :: saveScrapeFile( )
 		fwrite( (void *)strData.c_str( ), sizeof( char ), strData.size( ), pFile );
 		fclose( pFile );
 	}
-	delete pScrape;
+	if( pScrape )
+		delete pScrape;
 	return;
    }
 #endif
@@ -749,7 +750,8 @@ void CTracker :: saveScrapeFile( )
 		}
 		fwrite( (void *)strData.c_str( ), sizeof( char ), strData.size( ), pFile );
 		fclose( pFile );
-		delete pScrape;
+		if ( pScrape )
+			delete pScrape;
 		return;
 	}
 }
@@ -1530,7 +1532,8 @@ void CTracker :: parseTorrents( const char *szDir )
 				}
 			}
 
-			delete pFile;
+			if( pFile )
+				delete pFile;
 
 			pFile = NULL;
 
@@ -1718,7 +1721,8 @@ void CTracker :: parseTorrent( const char *szFile )
 		}
 	}
 
-	delete pTorrent;
+	if( pTorrent )
+		delete pTorrent;
 
 	pTorrent = NULL;
 
